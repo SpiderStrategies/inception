@@ -32,6 +32,7 @@
 
     var top = this.top()
       , underlyingHeaderHeight = 0
+      , hiddenOverallHeight = this.opts.topOffset //the underlying height is currently being set to the offset, but that will change
 
     _.each(_.first(this.steps, _.indexOf(this.steps, top)), function (step, i) {
       step.$el.removeClass('inception-step-top')
@@ -42,11 +43,11 @@
       // keeps the top of the header in the same place that it was before even though the step shrinks.
       // This equation can be written a little more efficiently, but I did it this way because it logically follows
       // how we determine the value.
-      var stepTranslate = -1 * ((this.opts.topOffset - (this.opts.topOffset * stepScale)) / 2) * (1 / stepScale)
+      var stepTranslate = -1 * ((hiddenOverallHeight - (hiddenOverallHeight * stepScale)) / 2) * (1 / stepScale)
         , transform = 'scale(' + stepScale + ',' + stepScale + ') translate(0, ' + stepTranslate + 'px)'
 
       // Set the height and CSS
-      step.$el.height(this.opts.topOffset)
+      step.$el.height(hiddenOverallHeight)
               .css({
                 '-webkit-transform': transform,
                 '-moz-transform': transform,
@@ -62,7 +63,7 @@
     }, this)
 
     top.$el.css('margin-top', underlyingHeaderHeight + 'px')
-    this.bottom().$el.height(this.opts.topOffset)
+    this.bottom().$el.height(hiddenOverallHeight)
   }
 
   Inception.prototype.top = function () {
