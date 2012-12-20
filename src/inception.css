@@ -1,8 +1,8 @@
 ul.inception-stack {
   position: relative;
-  height: 100%;
-  width: 100%;
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 ul.inception-stack li.inception-step {
@@ -26,10 +26,15 @@ ul.inception-stack li.inception-step .inception-step-cover {
 }
 
 ul.inception-stack li.inception-step.inception-step-top {
+  min-height: 400px; /* This is to cover the underlying step height set in hiddenOverallHeight */
   animation: show .3s;
   -webkit-animation: show .3s;
   -moz-animation: show .3s;
   -o-animation: show .3s;
+}
+
+ul.inception-stack li.inception-step.inception-step-bottom {
+  position: relative;
 }
 
 @-webkit-keyframes show {

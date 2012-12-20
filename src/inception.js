@@ -10,6 +10,7 @@
     _.defaults(opts, {
       topOffset: 50,
       scale: .02,
+      hiddenOverallHeight: 400,
       labelField: 'name',
       linkPop: false,
       animate: true
@@ -32,7 +33,7 @@
 
     var top = this.top()
       , underlyingHeaderHeight = 0
-      , hiddenOverallHeight = this.opts.topOffset //the underlying height is currently being set to the offset, but that will change
+      , hiddenOverallHeight = this.opts.hiddenOverallHeight
 
     _.each(_.first(this.steps, _.indexOf(this.steps, top)), function (step, i) {
       step.$el.removeClass('inception-step-top')
@@ -121,6 +122,9 @@
     },
 
     render: function () {
+      if (this.index === 0) {
+        this.$el.addClass('inception-step-bottom')
+      }
       this.$el.append(this.view.render().el)
       return this
     },
