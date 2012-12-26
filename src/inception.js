@@ -4,7 +4,7 @@
   var Inception = function (opts) {
     this.container = opts.container
     if (!opts.container) {
-      throw new Error('inception needs a container')
+      throw new Error('Inception needs a container')
     }
 
     _.defaults(opts, {
@@ -77,15 +77,19 @@
 
   Inception.prototype.push = function (view, rendered) {
     var last = this.top()
-      , step = new Step({ view: view, opts: this.opts, label: view[this.opts.labelField], index: this.steps.length })
+      , step = new Step(view[this.opts.labelField], view, this.steps.length, this.opts.topOffset)
 
     if (last) {
       last.drop()
       step.$el.addClass('inception-step-top')
     }
 
-    step.on('close', this._retreat, this)
-    this.stack.append(step.render().el)
+    var self = this
+    $(step).on('remove', function () {
+      self._retreat(this)
+    })
+
+    this.stack.append(step.render().$el)
     this.steps.push(step)
     this._resize()
   }
@@ -95,7 +99,7 @@
   }
 
   Inception.prototype.pop = function () {
-    this.steps.pop().destroy()
+    this.steps.pop().remove()
     _.last(this.steps).rise()
     this._resize()
   }
@@ -104,81 +108,73 @@
     return this.steps.length
   }
 
-  var Step = Backbone.View.extend({
+  var Step = function (label, view, index, offset) {
+    this.view = view
+    this.index = index
+    this.offset = offset
+    this.cover = new Cover(label).render()
 
-    tagName: 'li',
+    var self = this
+    this.cover.$el.on('click', function () {
+      self.close()
+    })
 
-    className: 'inception-step',
+    this.$el = $('<li>').addClass('inception-step')
+  }
 
-    events: {
-      'click .inception-step-cover': 'close'
-    },
-
-    initialize: function () {
-      this.cover = new Cover({label: this.options.label, linkPop: this.options.opts.linkPop}).render()
-      this.view = this.options.view
-      this.index = this.options.index
-      this.topOffset = this.options.opts.topOffset
-    },
-
-    render: function () {
-      if (this.index === 0) {
-        this.$el.addClass('inception-step-bottom')
-      }
-      this.$el.append(this.view.render().el)
-      return this
-    },
-
-    close: function () {
-      this.trigger('close', this)
-    },
-
-    drop: function () {
-      this.$el.append(this.cover.el)
-      return this
-    },
-
-    rise: function () {
-      this.$el.css({
-        'height': '',
-        '-webkit-transform': '',
-        '-moz-transform': '',
-        '-ms-transform': '',
-        '-o-transform': '',
-        'transform': ''
-      })
-      this.cover.remove()
-      return this
-    },
-
-    destroy: function () {
-      this.cover.remove()
-      this.remove()
-      this.cover = null
+  Step.prototype.render = function () {
+    if (this.index === 0) {
+      this.$el.addClass('inception-step-bottom')
     }
+    this.$el.append(this.view.render().el)
+    return this
+  }
 
-  })
+  Step.prototype.close = function () {
+    // TODO Emit close event
+    $(this).trigger('remove', this)
+  }
 
-  var Cover = Backbone.View.extend({
-    className: 'inception-step-cover',
+  Step.prototype.drop = function () {
+    this.$el.append(this.cover.$el)
+    return this
+  }
 
-    initialize: function () {
-      this.linkpop = this.options.linkPop
-      this.label = this.options.label
+  Step.prototype.rise = function () {
+    this.$el.css({
+      'height': '',
+      '-webkit-transform': '',
+      '-moz-transform': '',
+      '-ms-transform': '',
+      '-o-transform': '',
+      'transform': ''
+    })
+    this.cover.remove()
+    return this
+  }
 
-      this.events = {}
-      this.events['click' + (this.linkPop ? ' a' : '')] = 'close'
-    },
+  Step.prototype.remove = function () {
+    this.cover.remove()
+    this.cover.$el.unbind('click', this.close)
+    this.cover = null
+    this.$el.remove()
+    return this
+  }
 
-    close: function (e) {
-      e.preventDefault()
-    },
+  var Cover = function (label) {
+    this.label = label
+    this.$el = $('<div>').addClass('inception-step-cover')
+  }
 
-    render: function () {
-      this.$el.html('<header><a href="#">' + this.label + '</a></header>')
-      return this
-    }
-  })
+  Cover.prototype.render = function () {
+    this.$el.html('<header><a href="#">' + this.label + '</a></header>')
+    return this
+  }
+
+  Cover.prototype.remove = function () {
+    this.label = null
+    this.$el.remove()
+  }
 
   Backbone.Inception = Inception
 
