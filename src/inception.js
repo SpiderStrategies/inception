@@ -7,14 +7,14 @@
       throw new Error('Inception needs a container')
     }
 
-    _.defaults(opts, {
+    opts = $.extend({}, {
       topOffset: 50,
       scale: .02,
       hiddenOverallHeight: 400,
       labelField: 'name',
       linkPop: false,
       animate: true
-    })
+    }, opts)
 
     this.stack = $('<ul>').addClass('inception-stack')
 
@@ -28,13 +28,14 @@
     if (this.length() === 1) { return }
 
     var top = this.top()
+      , self = this
       , underlyingHeaderHeight = 0
       , hiddenOverallHeight = this.opts.hiddenOverallHeight
 
-    _.each(_.first(this.steps, _.indexOf(this.steps, top)), function (step, i) {
+    $.each(Array.prototype.slice.call(this.steps, 0, this.steps.indexOf(top)), function (i, step) {
       step.$el.removeClass('inception-step-top')
 
-      var stepScale = 1.0 - (this.opts.scale * (this.steps.length - step.index - 1))
+      var stepScale = 1.0 - (self.opts.scale * (self.steps.length - step.index - 1))
 
       // We want to move up half of the height we lost by scaling, as viewed in the context of the parent step.  This
       // keeps the top of the header in the same place that it was before even though the step shrinks.
@@ -56,19 +57,19 @@
 
       // We want the margin to be the sum of all of the heights of underlying step headers.  Those headers are scaled,
       // though, so we keep a running total of their relative heights.
-      underlyingHeaderHeight += this.opts.topOffset * stepScale
-    }, this)
+      underlyingHeaderHeight += self.opts.topOffset * stepScale
+    })
 
     top.$el.css('margin-top', underlyingHeaderHeight + 'px')
     this.bottom().$el.height(hiddenOverallHeight)
   }
 
   Inception.prototype.top = function () {
-    return _.last(this.steps)
+    return this.steps[this.steps.length - 1]
   }
 
   Inception.prototype.bottom = function () {
-    return _.first(this.steps)
+    return this.steps[0]
   }
 
   Inception.prototype.push = function (view, rendered) {
@@ -91,12 +92,15 @@
   }
 
   Inception.prototype._retreat = function (step) {
-    _.each(_.rest(this.steps, _.indexOf(this.steps, step) + 1), this.pop, this)
+    var self = this
+    $.each(Array.prototype.slice.call(this.steps, this.steps.indexOf(step) + 1), function () {
+      self.pop()
+    })
   }
 
   Inception.prototype.pop = function () {
     this.steps.pop().remove()
-    _.last(this.steps).rise()
+    this.top().rise()
     this._resize()
   }
 
