@@ -1,4 +1,4 @@
 inception
 =========
 
-Backbone views that resemble OSX time machine
+Views that resemble OSX time machine
