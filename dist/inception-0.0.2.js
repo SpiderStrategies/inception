@@ -15,10 +15,7 @@
     opts = $.extend({}, {
       topOffset: 50,
       scale: .02,
-      hiddenOverallHeight: 400,
-      labelField: 'name',
-      linkPop: false,
-      animate: true
+      hiddenOverallHeight: 400
     }, opts)
 
     this.stack = $('<ul>').addClass('inception-stack')
@@ -77,9 +74,9 @@
     return this.steps[0]
   }
 
-  Inception.prototype.push = function (view, rendered) {
+  Inception.prototype.push = function (view, label) {
     var last = this.top()
-      , step = new Step(view[this.opts.labelField], view, this.steps.length, this.opts.topOffset)
+      , step = new Step(label, view, this.steps.length, this.opts.topOffset)
 
     if (last) {
       last.drop()
@@ -131,7 +128,7 @@
     if (this.index === 0) {
       this.$el.addClass('inception-step-bottom')
     }
-    this.$el.append(this.view.render().el)
+    this.$el.append(this.view)
     return this
   }
 

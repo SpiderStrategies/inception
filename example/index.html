@@ -61,9 +61,6 @@
 
         $(function () {
           var Base = Backbone.View.extend({
-
-            name: 'Base Layer',
-
             events: {
               'click .next': 'next'
             },
@@ -83,13 +80,11 @@
             },
 
             next: function (e) {
-              inception.push(new Layer1)
+              inception.push(new Layer1().render().el, 'Pink Layer')
             }
           })
 
           var Layer1 = Backbone.View.extend({
-
-            name: 'Pink Layer',
 
             events: {
               'click .close': 'close',
@@ -97,7 +92,7 @@
             },
 
             next: function (e) {
-              inception.push(new Layer2)
+              inception.push(new Layer2().render().el, 'Purple Layer')
             },
 
             close: function (e) {
@@ -122,8 +117,6 @@
               'click .close': 'close'
             },
 
-            name: 'Purple layer',
-
             close: function (e) {
               e.stopPropagation()
               inception.pop()
@@ -139,7 +132,8 @@
           })
 
           var inception = new Inception({ container: $('#content')[0] })
-          inception.push(new Base)
+
+          inception.push(new Base().render().el, 'Base Layer')
         })
 
     </script>
