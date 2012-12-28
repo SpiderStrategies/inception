@@ -1,4 +1,4 @@
-(function (Backbone) {
+(function (global) {
   "use strict"
 
   var Inception = function (opts) {
@@ -23,10 +23,6 @@
     this.steps = []
     this.opts = opts
   }
-
-  Inception.prototype.on = Backbone.Events.on
-  Inception.prototype.off = Backbone.Events.off
-  Inception.prototype.trigger = Backbone.Events.trigger
 
   Inception.prototype._resize = function () {
     if (this.length() === 1) { return }
@@ -116,7 +112,7 @@
 
     var self = this
     this.cover.$el.on('click', function () {
-      self.close()
+      $(self).triggerHandler('remove', self)
     })
 
     this.$el = $('<li>').addClass('inception-step')
@@ -130,12 +126,8 @@
     return this
   }
 
-  Step.prototype.close = function () {
-    // TODO Emit close event
-    $(this).trigger('remove', this)
-  }
-
   Step.prototype.drop = function () {
+    this.cover.$el.show()
     this.$el.append(this.cover.$el)
     return this
   }
@@ -173,11 +165,9 @@
 
   Cover.prototype.remove = function () {
     this.label = null
-    this.$el.remove()
+    this.$el.hide()
   }
 
-  Backbone.Inception = Inception
+  global.Inception = Inception
 
-  return Backbone
-
-})(window.Backbone)
+})(window)
