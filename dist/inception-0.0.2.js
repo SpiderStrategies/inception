@@ -27,7 +27,7 @@
   }
 
   Inception.prototype._resize = function () {
-    if (this.length() === 1) { return }
+    if (this.length() === 0) { return }
 
     var top = this.top()
       , self = this
@@ -101,8 +101,12 @@
   }
 
   Inception.prototype.pop = function () {
-    this.steps.pop().remove()
-    this.top().rise()
+    var top = this.steps.pop()
+    top.remove()
+
+    if (this.top()) {
+      this.top().rise()
+    }
     this._resize()
   }
 
