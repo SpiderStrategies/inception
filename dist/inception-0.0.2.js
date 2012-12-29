@@ -63,7 +63,12 @@
     })
 
     top.$el.css('margin-top', underlyingHeaderHeight + 'px')
-    this.bottom().$el.height(hiddenOverallHeight)
+
+    if (this.length() > 1) {
+      this.bottom().$el.height(hiddenOverallHeight)
+    } else {
+      this.bottom().$el.css('height', 'auto')
+    }
   }
 
   Inception.prototype.top = function () {
