@@ -140,6 +140,7 @@
 
   Step.prototype.drop = function () {
     this.$el.removeClass('inception-step-top')
+            .addClass('inception-step-covered')
     this.cover.$el.show()
     this.$el.append(this.cover.$el)
     return this
@@ -158,6 +159,9 @@
       '-o-transform': '',
       'transform': ''
     })
+
+    this.$el.removeClass('inception-step-covered')
+
     this.cover.remove()
     return this
   }

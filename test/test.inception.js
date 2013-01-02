@@ -5,6 +5,25 @@ describe('Inception', function () {
 
   describe('Class names', function () {
 
+    it('applies inception-step-covered to all covered steps', function () {
+      var layer1 = inception.push($('<div id="base">Base View</div>')[0], 'Base View')
+        , layer2 = inception.push($('<div id="layer2">Layer 2</div>')[0], 'Layer 2')
+        , layer3 = inception.push($('<div id="layer3">Layer 3</div>')[0], 'Layer 3')
+
+      assert(layer1.$el.hasClass('inception-step-covered'))
+      assert(layer2.$el.hasClass('inception-step-covered'))
+      assert(!layer3.$el.hasClass('inception-step-covered'))
+
+      inception.pop()
+
+      assert(layer1.$el.hasClass('inception-step-covered'))
+      assert(!layer2.$el.hasClass('inception-step-covered'))
+
+      inception.pop()
+
+      assert(!layer1.$el.hasClass('inception-step-covered'))
+    })
+
     it('applies inception-step to all steps', function () {
       var layer1 = inception.push($('<div id="base">Base View</div>')[0], 'Base View')
         , layer2 = inception.push($('<div id="layer2">Layer 2</div>')[0], 'Layer 2')
