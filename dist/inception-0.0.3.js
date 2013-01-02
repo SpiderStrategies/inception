@@ -1,10 +1,36 @@
 /*!
- * inception.js v0.0.2 
+ * inception.js v0.0.3 
  * Copyright 2012, Spider Strategies <nathan.bowser@spiderstrategies.com> 
  * inception.js may be freely distributed under the BSD license. 
 */
 (function (global) {
-  "use strict"
+  'use strict'
+
+  var EventEmitter = function () {}
+
+  EventEmitter.prototype.init = function () {
+   this.jq = $(this)
+  }
+
+  EventEmitter.prototype.emit = EventEmitter.prototype.trigger = function (evt, data) {
+    !this.jq && this.init()
+    this.jq.trigger(evt, data)
+  }
+
+  EventEmitter.prototype.once = function (evt, fn) {
+    !this.jq && this.init()
+    this.jq.one(evt, fn)
+  }
+
+  EventEmitter.prototype.on = function (evt, fn) {
+    !this.jq && this.init()
+    this.jq.bind(evt, fn)
+  }
+
+  EventEmitter.prototype.off = function (evt, fn) {
+    !this.jq && this.init()
+    this.jq.unbind(evt, fn)
+  }
 
   var Inception = function (opts) {
     this.container = opts.container
@@ -135,6 +161,8 @@
     this.$el = $('<li>').addClass('inception-step')
   }
 
+  $.extend(Step.prototype, new EventEmitter)
+
   Step.prototype.render = function () {
     if (this.index === 0) {
       this.$el.addClass('inception-step-bottom')
@@ -172,6 +200,7 @@
   }
 
   Step.prototype.remove = function () {
+    this.emit('close')
     this.cover.remove()
     this.cover.$el.unbind('click', this.close)
     this.cover = null
