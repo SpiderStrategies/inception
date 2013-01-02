@@ -3,6 +3,29 @@ var assert = chai.assert
 describe('Inception', function () {
   var inception
 
+  describe('Header label', function () {
+    it('displays the header text when dropped', function () {
+      var layer1 = inception.push($('<div id="base">Base View</div>')[0], 'Base View')
+      assert(!layer1.cover.$el.is(':visible'))
+
+      var layer2 = inception.push($('<div id="layer2">Layer 2</div>')[0], 'Layer 2')
+
+      assert(layer1.cover.$el.is(':visible'))
+      assert(!layer2.cover.$el.is(':visible'))
+    })
+
+    it.only('Uses the correct label', function () {
+      var layer1 = inception.push($('<div id="base">Base View</div>')[0], 'Base View')
+        , layer2 = inception.push($('<div id="layer2">Layer 2</div>')[0], function () {
+          return 'Layer 2 Header'
+        })
+
+      assert.equal(layer1.cover.label, 'Base View')
+      assert.equal(layer2.cover.label, 'Layer 2 Header')
+    })
+
+  })
+
   describe('Class names', function () {
 
     it('applies inception-step-covered to all covered steps', function () {

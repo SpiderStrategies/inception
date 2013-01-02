@@ -175,7 +175,7 @@
   }
 
   var Cover = function (label) {
-    this.label = label
+    this.label = $.isFunction(label) ? label.apply(this) : label
     this.$el = $('<div>').addClass('inception-step-cover')
   }
 
