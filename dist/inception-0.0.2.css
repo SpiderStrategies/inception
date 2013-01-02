@@ -37,6 +37,17 @@ ul.inception-stack li.inception-step.inception-step-bottom {
   position: relative;
 }
 
+/* Base inception styles */
+.inception-step {
+  background-color: white;
+  border: 1px solid #bbb;
+  -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;
+}
+.inception-step-cover {
+  background-color: #eee;
+}
+
+/* Animations */
 @-webkit-keyframes show {
   from {
     opacity: 0;
@@ -47,7 +58,6 @@ ul.inception-stack li.inception-step.inception-step-bottom {
     -webkit-transform: scale(1, 1);
   }
 }
-
 @-moz-keyframes show {
   from {
     opacity: 0;
@@ -58,7 +68,6 @@ ul.inception-stack li.inception-step.inception-step-bottom {
     -moz-transform: scale(1, 1);
   }
 }
-
 @-o-keyframes show {
   from {
     opacity: 0;
