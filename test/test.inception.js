@@ -14,7 +14,7 @@ describe('Inception', function () {
       assert(!layer2.cover.$el.is(':visible'))
     })
 
-    it.only('Uses the correct label', function () {
+    it('Uses the correct label', function () {
       var layer1 = inception.push($('<div id="base">Base View</div>')[0], 'Base View')
         , layer2 = inception.push($('<div id="layer2">Layer 2</div>')[0], function () {
           return 'Layer 2 Header'
