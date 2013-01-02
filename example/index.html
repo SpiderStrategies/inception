@@ -71,7 +71,10 @@
             },
 
             next: function (e) {
-              inception.push(new Layer1().render().el, 'Pink Layer')
+              var layer1 = inception.push(new Layer1().render().el, 'Pink Layer')
+              layer1.on('close', function () {
+                alert('closed layer 1')
+              })
             }
           })
 
