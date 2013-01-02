@@ -1,6 +1,28 @@
 (function (global) {
   "use strict"
 
+  $.eventEmitter = {
+    init: function() {
+      this._JQ = jQuery(this)
+    },
+    emit: function(evt, data) {
+      !this._JQ && this.init()
+      this._JQ.trigger(evt, data)
+    },
+    once: function(evt, handler) {
+      !this._JQ && this.init()
+      this._JQ.one(evt, handler)
+    },
+    on: function(evt, handler) {
+      !this._JQ && this.init()
+      this._JQ.bind(evt, handler)
+    },
+    off: function(evt, handler) {
+      !this._JQ && this.init()
+      this._JQ.unbind(evt, handler)
+    }
+  }
+
   var Inception = function (opts) {
     this.container = opts.container
     if (!opts.container) {
@@ -130,6 +152,8 @@
     this.$el = $('<li>').addClass('inception-step')
   }
 
+  $.extend(Step.prototype, $.eventEmitter)
+
   Step.prototype.render = function () {
     if (this.index === 0) {
       this.$el.addClass('inception-step-bottom')
@@ -167,6 +191,7 @@
   }
 
   Step.prototype.remove = function () {
+    this.emit('close')
     this.cover.remove()
     this.cover.$el.unbind('click', this.close)
     this.cover = null

@@ -3,6 +3,19 @@ var assert = chai.assert
 describe('Inception', function () {
   var inception
 
+  describe('Events', function () {
+
+    it('fires a close event when popped', function (done) {
+      var layer1 = inception.push($('<div id="base">Base View</div>')[0], 'Base View')
+        , layer2 = inception.push($('<div id="layer2">Layer 2</div>')[0], 'Layer 2')
+      layer2.on('close', function (a) {
+        assert.equal(this, layer2)
+        done()
+      })
+      inception.pop()
+    })
+  })
+
   describe('Header label', function () {
     it('displays the header text when dropped', function () {
       var layer1 = inception.push($('<div id="base">Base View</div>')[0], 'Base View')
