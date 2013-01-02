@@ -96,6 +96,8 @@
     this.stack.append(step.render().$el)
     this.steps.push(step)
     this._resize()
+
+    return step
   }
 
   Inception.prototype._retreat = function (step) {
@@ -106,13 +108,15 @@
   }
 
   Inception.prototype.pop = function () {
-    var top = this.steps.pop()
-    top.remove()
+    var step = this.steps.pop()
+    step.remove()
 
     if (this.top()) {
       this.top().rise()
     }
     this._resize()
+
+    return step
   }
 
   Inception.prototype.length = function () {
