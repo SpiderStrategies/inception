@@ -35,8 +35,6 @@
       , hiddenOverallHeight = this.opts.hiddenOverallHeight
 
     $.each(Array.prototype.slice.call(this.steps, 0, this.steps.indexOf(top)), function (i, step) {
-      step.$el.removeClass('inception-step-top')
-
       var stepScale = 1.0 - (self.opts.scale * (self.steps.length - step.index - 1))
 
       // We want to move up half of the height we lost by scaling, as viewed in the context of the parent step.  This
@@ -146,12 +144,17 @@
   }
 
   Step.prototype.drop = function () {
+    this.$el.removeClass('inception-step-top')
     this.cover.$el.show()
     this.$el.append(this.cover.$el)
     return this
   }
 
   Step.prototype.rise = function () {
+    if (this.index) {
+      this.$el.addClass('inception-step-top')
+    }
+
     this.$el.css({
       'height': '',
       '-webkit-transform': '',
