@@ -3,6 +3,46 @@ var assert = chai.assert
 describe('Inception', function () {
   var inception
 
+  describe('Initialization', function () {
+
+    it('throws an error if a container is not set', function () {
+      try {
+        var i = new Inception
+      } catch (e) {
+        assert(e)
+      }
+    })
+
+    it('sets proper defaults', function () {
+      var inception = new Inception({
+        container: $('#container')[0],
+      })
+
+      assert.equal(inception.opts.topOffset, 50)
+      assert.equal(inception.opts.scale, .02)
+      assert.equal(inception.opts.hiddenOverallHeight, 400)
+    })
+
+    it('overwrites  defaults', function () {
+      var inception = new Inception({
+        container: $('#container')[0],
+        scale: .04,
+        topOffset: 100,
+        hiddenOverallHeight: 300
+      })
+
+      assert.equal(inception.opts.topOffset, 100)
+      assert.equal(inception.opts.scale, .04)
+      assert.equal(inception.opts.hiddenOverallHeight, 300)
+    })
+
+    it('initializes', function () {
+      assert.equal($('#container ul.inception-stack').size(), 1)
+      assert.equal(0, inception.steps.length)
+    })
+
+  })
+
   describe('Events', function () {
 
     it('fires a close event when popped', function (done) {
@@ -14,6 +54,7 @@ describe('Inception', function () {
       })
       inception.pop()
     })
+
   })
 
   describe('Header label', function () {
