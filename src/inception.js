@@ -1,5 +1,5 @@
 (function (global) {
-  "use strict"
+  'use strict'
 
   $.eventEmitter = {
     init: function() {
