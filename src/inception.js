@@ -1,26 +1,30 @@
 (function (global) {
   'use strict'
 
-  $.eventEmitter = {
-    init: function() {
-      this._JQ = jQuery(this)
-    },
-    emit: function(evt, data) {
-      !this._JQ && this.init()
-      this._JQ.trigger(evt, data)
-    },
-    once: function(evt, handler) {
-      !this._JQ && this.init()
-      this._JQ.one(evt, handler)
-    },
-    on: function(evt, handler) {
-      !this._JQ && this.init()
-      this._JQ.bind(evt, handler)
-    },
-    off: function(evt, handler) {
-      !this._JQ && this.init()
-      this._JQ.unbind(evt, handler)
-    }
+  var EventEmitter = function () {}
+
+  EventEmitter.prototype.init = function () {
+   this.jq = $(this)
+  }
+
+  EventEmitter.prototype.emit = EventEmitter.prototype.trigger = function (evt, data) {
+    !this.jq && this.init()
+    this.jq.trigger(evt, data)
+  }
+
+  EventEmitter.prototype.once = function (evt, fn) {
+    !this.jq && this.init()
+    this.jq.one(evt, fn)
+  }
+
+  EventEmitter.prototype.on = function (evt, fn) {
+    !this.jq && this.init()
+    this.jq.bind(evt, fn)
+  }
+
+  EventEmitter.prototype.off = function (evt, fn) {
+    !this.jq && this.init()
+    this.jq.unbind(evt, fn)
   }
 
   var Inception = function (opts) {
@@ -152,7 +156,7 @@
     this.$el = $('<li>').addClass('inception-step')
   }
 
-  $.extend(Step.prototype, $.eventEmitter)
+  $.extend(Step.prototype, new EventEmitter)
 
   Step.prototype.render = function () {
     if (this.index === 0) {
