@@ -13,6 +13,16 @@ describe('Inception', function () {
       assert(layer2.$el.hasClass('inception-step'))
     })
 
+    it('applies inception-step-fade-in when pushing layers > 1', function () {
+      var layer1 = inception.push($('<div id="base">Base View</div>')[0], 'Base View')
+
+      assert(!layer1.$el.hasClass('inception-step-fade-in')) // Never animate the base
+
+      var layer2 = inception.push($('<div id="layer2">Layer 2</div>')[0], 'Layer 2')
+
+      assert(layer2.$el.hasClass('inception-step-fade-in'))
+    })
+
     it('applies inception-step-top', function () {
       var layer1 = inception.push($('<div id="base">Base View</div>')[0], 'Base View')
 

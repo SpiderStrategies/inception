@@ -78,7 +78,7 @@
 
     if (last) {
       last.drop()
-      step.$el.addClass('inception-step-top')
+      step.$el.addClass('inception-step-top inception-step-fade-in')
     }
 
     var self = this
