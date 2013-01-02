@@ -1,8 +1,8 @@
 ul.inception-stack {
   position: relative;
-  height: 100%;
-  width: 100%;
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 ul.inception-stack li.inception-step {
@@ -26,12 +26,31 @@ ul.inception-stack li.inception-step .inception-step-cover {
 }
 
 ul.inception-stack li.inception-step.inception-step-top {
+  min-height: 400px; /* This is to cover the underlying step height set in hiddenOverallHeight */
+}
+
+ul.inception-stack li.inception-step.inception-step-fade-in {
   animation: show .3s;
   -webkit-animation: show .3s;
   -moz-animation: show .3s;
   -o-animation: show .3s;
 }
 
+ul.inception-stack li.inception-step.inception-step-bottom {
+  position: relative;
+}
+
+/* Base inception styles */
+.inception-step {
+  background-color: white;
+  border: 1px solid #bbb;
+  -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box;
+}
+.inception-step-cover {
+  background-color: #eee;
+}
+
+/* Animations */
 @-webkit-keyframes show {
   from {
     opacity: 0;
@@ -42,7 +61,6 @@ ul.inception-stack li.inception-step.inception-step-top {
     -webkit-transform: scale(1, 1);
   }
 }
-
 @-moz-keyframes show {
   from {
     opacity: 0;
@@ -53,7 +71,6 @@ ul.inception-stack li.inception-step.inception-step-top {
     -moz-transform: scale(1, 1);
   }
 }
-
 @-o-keyframes show {
   from {
     opacity: 0;
