@@ -6,11 +6,11 @@ ul.inception-stack {
 }
 
 ul.inception-stack li.inception-step {
-  -webkit-transition: -webkit-transform .3s ease-out;
-  -ms-transition: -ms-transform .3s ease-out;
-  -moz-transition: -moz-transform .3s ease-out;
-  -o-transition: -o-transform .3s ease-out;
-  transition: transform .3s ease-out;
+  -webkit-transition: -webkit-transform .3s ease;
+  -ms-transition: -ms-transform .3s ease;
+  -moz-transition: -moz-transform .3s ease;
+  -o-transition: -o-transform .3s ease;
+  transition: transform .3s ease;
   position: absolute;
   top: -1px;
   left: -1px;
