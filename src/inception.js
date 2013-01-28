@@ -52,9 +52,9 @@
 
     var top = this.top()
       , self = this
-      , underlyingHeaderHeight = 0
       , hiddenOverallHeight = this.opts.hiddenOverallHeight
 
+    // Loop through all of the layers except for the top one, setting their correct CSS and height values.
     $.each(Array.prototype.slice.call(this.steps, 0, this.steps.indexOf(top)), function (i, step) {
       var stepScale = 1.0 - (self.opts.scale * (self.steps.length - step.index - 1))
 
@@ -64,6 +64,12 @@
       // how we determine the value.
       var stepTranslate = -1 * ((hiddenOverallHeight - (hiddenOverallHeight * stepScale)) / 2) * (1 / stepScale)
         , transform = 'scale(' + stepScale + ',' + stepScale + ') translate(0, ' + stepTranslate + 'px)'
+        , topMargin = (self.opts.topOffset * stepScale) - self.opts.hiddenOverallHeight
+
+      // The base step doesn't need to have a top margin because it's already where it needs to be.
+      if (step.index === 0) {
+        topMargin = 0
+      }
 
       // Set the height and CSS
       step.$el.height(hiddenOverallHeight)
@@ -73,17 +79,12 @@
                 '-ms-transform': transform,
                 '-o-transform': transform,
                 'transform': transform,
-                'margin-top': underlyingHeaderHeight + 'px',
+                'margin-top': topMargin + 'px',
                 'overflow': 'hidden' })
-
-      // We want the margin to be the sum of all of the heights of underlying step headers.  Those headers are scaled,
-      // though, so we keep a running total of their relative heights.
-      underlyingHeaderHeight += self.opts.topOffset * stepScale
     })
 
-    top.$el.css('margin-top', underlyingHeaderHeight + 'px')
-
     if (this.length() > 1) {
+      top.$el.css('margin-top', self.opts.topOffset - self.opts.hiddenOverallHeight + 'px')
       this.bottom().$el.height(hiddenOverallHeight)
     } else {
       this.bottom().$el.css('height', 'auto')

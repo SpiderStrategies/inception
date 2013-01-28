@@ -20,7 +20,7 @@
       }
 
       #container {
-        width: 1200px;
+        width: 960px;
         margin: 0 auto;
       }
 
@@ -125,7 +125,7 @@
             }
           })
 
-          var inception = new Inception({ container: $('#content')[0] })
+          var inception = new Inception({ container: $('#content')[0], hiddenOverallHeight: 460 })
 
           inception.push(new Base().render().el, 'Base Layer')
         })
