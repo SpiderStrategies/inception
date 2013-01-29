@@ -52,27 +52,28 @@
 
     var top = this.top()
       , self = this
-      , hiddenOverallHeight = this.opts.hiddenOverallHeight
+      , topOffset = this.opts.topOffset
 
     // Loop through all of the layers except for the top one, setting their correct CSS and height values.
     $.each(Array.prototype.slice.call(this.steps, 0, this.steps.indexOf(top)), function (i, step) {
       var stepScale = 1.0 - (self.opts.scale * (self.steps.length - step.index - 1))
+      var hiddenHeightNoPadding = self.opts.hiddenOverallHeight - _calculateVerticalPadding(step)
 
       // We want to move up half of the height we lost by scaling, as viewed in the context of the parent step.  This
       // keeps the top of the header in the same place that it was before even though the step shrinks.
       // This equation can be written a little more efficiently, but I did it this way because it logically follows
       // how we determine the value.
-      var stepTranslate = -1 * ((hiddenOverallHeight - (hiddenOverallHeight * stepScale)) / 2) * (1 / stepScale)
+      var stepTranslate = -1 * ((hiddenHeightNoPadding - (hiddenHeightNoPadding * stepScale)) / 2) * (1 / stepScale)
         , transform = 'scale(' + stepScale + ',' + stepScale + ') translate(0, ' + stepTranslate + 'px)'
-        , topMargin = (self.opts.topOffset * stepScale) - self.opts.hiddenOverallHeight
 
       // The base step doesn't need to have a top margin because it's already where it needs to be.
-      if (step.index === 0) {
-        topMargin = 0
+      var topMargin = 0
+      if (step.index > 0) {
+        topMargin = _calculateTopMargin(step, stepScale, topOffset, hiddenHeightNoPadding)
       }
 
       // Set the height and CSS
-      step.$el.height(hiddenOverallHeight)
+      step.$el.height(hiddenHeightNoPadding)
               .css({
                 '-webkit-transform': transform,
                 '-moz-transform': transform,
@@ -84,11 +85,21 @@
     })
 
     if (this.length() > 1) {
-      top.$el.css('margin-top', self.opts.topOffset - self.opts.hiddenOverallHeight + 'px')
-      this.bottom().$el.height(hiddenOverallHeight)
+      var hiddenHeightNoPadding = this.opts.hiddenOverallHeight - _calculateVerticalPadding(top)
+      top.$el.css('margin-top', _calculateTopMargin(top, 1, topOffset, hiddenHeightNoPadding) + 'px')
+      this.bottom().$el.height(hiddenHeightNoPadding)
     } else {
       this.bottom().$el.css('height', 'auto')
     }
+  }
+  
+  var _calculateVerticalPadding = function (step) {
+    return parseInt(step.$el.css("padding-top"), 10) + parseInt(step.$el.css("padding-bottom"), 10)
+  }
+  
+  var _calculateTopMargin = function (step, stepScale, topOffset, hiddenOverallHeight) {
+    var heightPadding = _calculateVerticalPadding(step)
+    return (topOffset * stepScale) - (hiddenOverallHeight + heightPadding)
   }
 
   Inception.prototype.top = function () {
