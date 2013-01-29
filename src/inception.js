@@ -92,11 +92,11 @@
       this.bottom().$el.css('height', 'auto')
     }
   }
-  
+
   var _calculateVerticalPadding = function (step) {
-    return parseInt(step.$el.css("padding-top"), 10) + parseInt(step.$el.css("padding-bottom"), 10)
+    return parseInt(step.$el.css('padding-top'), 10) + parseInt(step.$el.css('padding-bottom'), 10)
   }
-  
+
   var _calculateTopMargin = function (step, stepScale, topOffset, hiddenOverallHeight) {
     var heightPadding = _calculateVerticalPadding(step)
     return (topOffset * stepScale) - (hiddenOverallHeight + heightPadding)
