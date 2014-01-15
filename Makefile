@@ -12,7 +12,4 @@ build: clean
 	@echo $(HEADER) > $(DIST) && cat src/inception.js >> $(DIST)
 	@echo $(HEADER) > $(MIN) && node_modules/.bin/uglifyjs src/inception.js >> $(MIN)
 
-test:
-	@open test/runner.html
-
 .PHONY: test

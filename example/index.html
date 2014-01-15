@@ -6,7 +6,7 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>
     <script src="http://backbonejs.org/backbone-min.js"></script>
-    <script src="../src/inception.js"></script>
+    <script src="./bundle.js"></script>
     <link rel="stylesheet" type="text/css" href="../src/inception.css" />
     <style type="text/css">
 
@@ -125,7 +125,8 @@
             }
           })
 
-          var inception = new Inception({ container: $('#content')[0] })
+          var Inception = require('inception')
+            , inception = new Inception({ container: $('#content')[0] })
 
           inception.push(new Base().render().el, 'Base Layer')
         })
