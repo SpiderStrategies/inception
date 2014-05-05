@@ -1,6 +1,7 @@
 
 // TODO Use node event emmiter since we're putting this in npm
 var EventEmitter = function () {}
+  , $ = require('jquery')
 
 EventEmitter.prototype.init = function () {
  this.jq = $(this)
