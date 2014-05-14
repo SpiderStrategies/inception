@@ -216,12 +216,12 @@ Step.prototype.remove = function () {
 }
 
 var Cover = function (label) {
-  this.label = $.isFunction(label) ? label.apply(this) : label
+  this.label = label
   this.$el = $('<div>').addClass('inception-step-cover')
 }
 
 Cover.prototype.render = function () {
-  this.$el.html('<header><a href="#">' + this.label + '</a></header>')
+  this.$el.html('<header><a href="#">' + ($.isFunction(this.label) ? this.label.apply(this) : this.label) + '</a></header>')
   return this
 }
 
