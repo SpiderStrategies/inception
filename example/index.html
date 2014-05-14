@@ -86,7 +86,9 @@
             },
 
             next: function (e) {
-              inception.push(new Layer2().render().el, 'Purple Layer')
+              inception.push(new Layer2().render().el, function () {
+                return 'Purple Layer'
+              })
             },
 
             close: function (e) {
