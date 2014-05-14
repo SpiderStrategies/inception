@@ -1,4 +1,6 @@
-var assert = chai.assert
+var assert = require('assert')
+  , Inception = require('../src/inception')
+  , $ = require('jquery')
 
 describe('Inception', function () {
   var inception
@@ -74,8 +76,10 @@ describe('Inception', function () {
           return 'Layer 2 Header'
         })
 
-      assert.equal(layer1.cover.label, 'Base View')
-      assert.equal(layer2.cover.label, 'Layer 2 Header')
+      inception.push($('<div>Top</div>')[0], 'Top')
+
+      assert.equal(layer1.$el.find('header a').text(), 'Base View')
+      assert.equal(layer2.$el.find('header a').text(), 'Layer 2 Header')
     })
 
   })
@@ -147,11 +151,12 @@ describe('Inception', function () {
   })
 
   beforeEach(function () {
+    $('body').append('<div id="container">')
     inception = new Inception({ container: $('#container')[0], topOffset: 60, scale: .03 })
   })
 
   afterEach(function () {
-    $('#container').empty()
+    $('#container').remove()
   })
 
 })
