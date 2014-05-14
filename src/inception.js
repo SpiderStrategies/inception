@@ -158,7 +158,7 @@ var Step = function (label, view, index, offset) {
   this.view = view
   this.index = index
   this.offset = offset
-  this.cover = new Cover(label).render()
+  this.cover = new Cover(label)
 
   var self = this
   this.cover.$el.on('click', function () {
@@ -181,7 +181,7 @@ Step.prototype.render = function () {
 Step.prototype.drop = function () {
   this.$el.removeClass('inception-step-top')
           .addClass('inception-step-covered')
-  this.cover.$el.show()
+  this.cover.render().$el.show()
   this.$el.append(this.cover.$el)
   return this
 }
@@ -218,15 +218,15 @@ Step.prototype.remove = function () {
 var Cover = function (label) {
   this.label = label
   this.$el = $('<div>').addClass('inception-step-cover')
+  this.$el.append('<header><a href="#"></a></header>')
 }
 
 Cover.prototype.render = function () {
-  this.$el.html('<header><a href="#">' + ($.isFunction(this.label) ? this.label.apply(this) : this.label) + '</a></header>')
+  this.$el.find('a').text($.isFunction(this.label) ? this.label.apply(this) : this.label)
   return this
 }
 
 Cover.prototype.remove = function () {
-  this.label = null
   this.$el.hide()
 }
 
