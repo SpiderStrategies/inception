@@ -75,13 +75,9 @@ Inception.prototype._resize = function () {
     // Set the height and CSS
     step.$el.height(hiddenHeightNoPadding)
             .css({
-              '-webkit-transform': transform,
-              '-moz-transform': transform,
-              '-ms-transform': transform,
-              '-o-transform': transform,
-              'transform': transform,
+              transform: transform,
               'margin-top': topMargin + 'px',
-              'overflow': 'hidden' })
+              overflow: 'hidden' })
   })
 
   if (this.length() > 1) {
@@ -192,12 +188,8 @@ Step.prototype.rise = function () {
   }
 
   this.$el.css({
-    'height': '',
-    '-webkit-transform': '',
-    '-moz-transform': '',
-    '-ms-transform': '',
-    '-o-transform': '',
-    'transform': ''
+    height: '',
+    transform: ''
   })
 
   this.$el.removeClass('inception-step-covered')
