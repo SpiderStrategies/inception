@@ -39,7 +39,7 @@ describe('Inception', function () {
     })
 
     it('initializes', function () {
-      assert.equal($('#container ul.inception-stack').size(), 1)
+      assert.equal($('#container ul.inception-stack').length, 1)
       assert.equal(0, inception.steps.length)
     })
 
