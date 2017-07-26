@@ -19,12 +19,12 @@ EventEmitter.prototype.once = function (evt, fn) {
 
 EventEmitter.prototype.on = function (evt, fn) {
   !this.jq && this.init()
-  this.jq.bind(evt, fn)
+  this.jq.on(evt, fn)
 }
 
 EventEmitter.prototype.off = function (evt, fn) {
   !this.jq && this.init()
-  this.jq.unbind(evt, fn)
+  this.jq.off(evt, fn)
 }
 
 var Inception = function (opts) {
