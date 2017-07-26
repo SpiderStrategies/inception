@@ -21,8 +21,8 @@
   },
   "devDependencies": {
     "browserify": "^14.4.0",
-    "testling": "^1.6.1",
-    "mocha": "^1.18.2"
+    "mocha": "^3.4.2",
+    "testling": "^1.7.1"
   },
   "testling": {
     "harness": "mocha-bdd",
