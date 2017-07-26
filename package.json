@@ -4,8 +4,8 @@
   "description": "Views that stack like OS X time machine.",
   "main": "src/inception.js",
   "scripts": {
-    "test": "./node_modules/.bin/testling",
-    "bundle": "node_modules/.bin/browserify -r ./src/inception:inception -o example/bundle.js"
+    "test": "testling",
+    "bundle": "browserify -r ./src/inception:inception -o example/bundle.js"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,8 @@
   "author": "Nathan Bowser <nathan.bowser@spiderstrategies.com>",
   "license": "BSD",
   "dependencies": {
-    "jquery": "^2.1.1"
+    "browserify": "^14.4.0",
+    "jquery": "^3.2.1"
   },
   "devDependencies": {
     "browserify": "~3.20.0",
