@@ -201,7 +201,7 @@ Step.prototype.rise = function () {
 Step.prototype.remove = function () {
   this.emit('close')
   this.cover.remove()
-  this.cover.$el.unbind('click', this.close)
+  this.cover.$el.off('click', this.close)
   this.cover = null
   this.$el.remove()
   return this
