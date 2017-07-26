@@ -1,6 +1,6 @@
 {
   "name": "browser-inception",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Views that stack like OS X time machine.",
   "main": "src/inception.js",
   "scripts": {
